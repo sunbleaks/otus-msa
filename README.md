@@ -1,23 +1,37 @@
 otus-msa
 
-K8s:<br/>
-  map local DNS in /etc/hosts<br/>
-  make minikube tunnel for local LoadBalancer<br/>
+<br/>
+  - map local DNS in /etc/hosts<br/>
+  - minikube start --driver=virtualbox<br/>
+  - make minikube tunnel for local LoadBalancer<br/>
+  - kubectl create ns app<br/>
+  - kubectl config set-context --current --namespace=app<br/>
+  - kubectl create namespace m && helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/ && helm repo update && helm install nginx ingress-nginx/ingress-nginx --namespace m -f nginx-ingress.yaml</br>
 
+
+  Start:<br>
+  helm install postgres helm/postgres<br/>
   kubectl apply -f .<br/>
-  
-  http://arch.homework/health 
 
-  curl http://arch.homework/health<br/>
-  {"status":"OK"}<br/>
+  newman run postman/user_collection.json
 
-  curl http://arch.homework/otusapp/oleg/health<br/>
-  {"status":"OK"}<br/>
+  User Collection
 
-  curl http://arch.homework/otusapp<br/>
-  {"timestamp":"2023-10-02T08:41:56.690+00:00","status":404,"error":"Not Found","path":"/otusapp"}<br/>
+  → Create user
+  POST http://arch.homework/user [201 Created, 104B, 162ms]
 
-  curl http://arch.homework/<br/>
-  {"timestamp":"2023-10-02T08:41:56.690+00:00","status":404,"error":"Not Found","path":"/"}<br/>
+  → Get user
+  GET http://arch.homework/user/1 [200 OK, 258B, 159ms]
 
+  → Edit user
+  PUT http://arch.homework/user/1 [200 OK, 99B, 351ms]
+
+  → Delete user
+  DELETE http://arch.homework/user/1 [204 No Content, 88B, 488ms]
+
+
+  Delete:<br/>
   kubectl delete -f .<br/>
+  helm uninstall postgres helm/postgres<br/>
+  kubectl delete pvc pvc-postgres-ss-0<br/>
+  minikube ssh and exexute rm -r /var/lib/postgresql</br>

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: kuber-app
-          image: sunbleaks/simple-service:v02
+          image: sunbleaks/simple-service:v03
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
@@ -39,3 +39,25 @@ spec:
                   value: Awesome
             initialDelaySeconds: 3
             periodSeconds: 3
+          volumeMounts:
+            - name: config
+              mountPath: "/config"
+              readOnly: true
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+      volumes:
+        - name: config
+          configMap:
+            name: kuber-cm
+            items:
+              - key: "additional.properties"
+                path: "additional.properties"

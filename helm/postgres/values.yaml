@@ -1,0 +1,20 @@
+replicaCount: 1
+minReadySeconds: 10
+
+service:
+  port: 5432
+
+image:
+  repository: amd64/postgres
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "16.0"
+
+containerPort: 5432
+
+persistentVolumeReclaimPolicy: Delete
+volumeAccessModes: ReadWriteOnce
+volumeMounts:
+   mountPath: "/var/lib/postgresql/data"
+
+storageSize: 50Mi
