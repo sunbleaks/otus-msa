@@ -1,15 +1,16 @@
 otus-msa
 
 <br/>
-  - map local DNS in /etc/hosts<br/>
+<b>Prepare:</b><br>
   - minikube start --driver=virtualbox<br/>
   - make minikube tunnel for local LoadBalancer<br/>
+  - map arch.homework local DNS in /etc/hosts<br/>
   - kubectl create ns app<br/>
   - kubectl config set-context --current --namespace=app<br/>
   - kubectl create namespace m && helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/ && helm repo update && helm install nginx ingress-nginx/ingress-nginx --namespace m -f nginx-ingress.yaml</br>
 
-
-  Start:<br>
+  <br/>
+  <b>Start:</b><br>
   helm install postgres helm/postgres<br/>
   kubectl apply -f .<br/>
 
@@ -30,7 +31,7 @@ otus-msa
   DELETE http://arch.homework/user/1 [204 No Content, 88B, 488ms]
 
 
-  Delete:<br/>
+  <b>Delete:</b><br/>
   kubectl delete -f .<br/>
   helm uninstall postgres helm/postgres<br/>
   kubectl delete pvc pvc-postgres-ss-0<br/>
