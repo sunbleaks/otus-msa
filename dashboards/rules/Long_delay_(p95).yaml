@@ -1,0 +1,60 @@
+apiVersion: 1
+groups:
+  - orgId: 1
+    name: alert
+    folder: Nginx Ingress
+    interval: 3m
+    rules:
+      - uid: eeb679d8-e222-4cb4-94df-ab185cc43968
+        title: Long delay (p95) > 1.5s
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 180
+              to: 0
+            datasourceUid: prometheus
+            model:
+              editorMode: code
+              expr: histogram_quantile(0.95,sum(rate(nginx_ingress_controller_request_duration_seconds_bucket[3m])) by (le,ingress)) > 1.5
+              instant: true
+              intervalMs: 1000
+              legendFormat: '{{ingress}}'
+              maxDataPoints: 43200
+              range: false
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 180
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1.5
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: B
+              type: threshold
+        noDataState: OK
+        execErrState: Alerting
+        for: 3m
+        annotations:
+          description: Long delay (p95) (> 1.5s)
+          summary: p95 {{ $labels.ingress}}
+        isPaused: false

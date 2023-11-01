@@ -37,6 +37,31 @@ spec:
                 secretKeyRef:
                   name: {{ .Chart.Name }}-secret
                   key: POSTGRES_PASSWORD
+        - name: {{ .Chart.Name }}-exporter
+          image: wrouesnel/postgres_exporter:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http-metrics
+              containerPort: 9187
+              protocol: TCP
+          args:
+            - "--web.listen-address=:9187"
+            - "--auto-discover-databases"
+            - "--log.level=debug"
+          env:
+            - name: DATA_SOURCE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Chart.Name }}-secret
+                  key: POSTGRES_USER
+            - name: DATA_SOURCE_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Chart.Name }}-secret
+                  key: POSTGRES_PASSWORD
+            - name: DATA_SOURCE_URI
+              value: {{ .Chart.Name }}-service.database:{{ .Values.service.port }}/?sslmode=disable
+
   volumeClaimTemplates:
     - metadata:
         name: pvc

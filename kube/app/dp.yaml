@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: kuber-app
-          image: sunbleaks/simple-service:v03
+          image: sunbleaks/simple-service:v04
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

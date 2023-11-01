@@ -11,7 +11,7 @@ spec:
           image: governmentpaas/psql
           imagePullPolicy: Always
           command: ["psql"]
-          args: ["-Atx", "postgres://root:1234@postgres-service:5432", "-f", "/sql/init.sql"]
+          args: ["-Atx", "postgres://root:1234@postgres-service.database:5432", "-f", "/sql/init.sql"]
           env:
             - name: POSTGRES_USER
               valueFrom:

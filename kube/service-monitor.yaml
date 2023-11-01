@@ -1,0 +1,68 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: metrics-demo-monitor
+  namespace: monitoring
+  labels:
+    app: metrics-demo-monitor
+
+spec:
+  endpoints:
+    - port: web
+      scrapeTimeout: 30s
+      path: /actuator/prometheus
+      honorLabels: true
+      scheme: http
+  #  jobLabel: stack
+  namespaceSelector:
+    matchNames:
+      - app
+  selector:
+    matchLabels:
+      app: kuber-svc
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: metrics-nginx-monitor
+  namespace: monitoring
+  labels:
+    app: metrics-nginx-monitor
+
+spec:
+  endpoints:
+    - port: metrics
+      scrapeTimeout: 30s
+      path: /metrics
+      honorLabels: true
+      scheme: http
+  #  jobLabel: stack
+  namespaceSelector:
+    matchNames:
+      - m
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ingress-nginx
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: metrics-db-monitor
+  namespace: monitoring
+  labels:
+    app: metrics-db-monitor
+
+spec:
+  endpoints:
+    - port: http-metric
+      scrapeTimeout: 30s
+      path: /metrics
+      honorLabels: true
+      scheme: http
+  #  jobLabel: stack
+  namespaceSelector:
+    matchNames:
+      - database
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgres

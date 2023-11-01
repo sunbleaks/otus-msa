@@ -1,0 +1,60 @@
+apiVersion: 1
+groups:
+  - orgId: 1
+    name: alert
+    folder: Nginx Ingress
+    interval: 3m
+    rules:
+      - uid: a17ca886-b46f-4f71-b760-aa3bcb51f3f5
+        title: Http 5xx Error Rate > 1%
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 60
+              to: 0
+            datasourceUid: prometheus
+            model:
+              editorMode: code
+              expr: sum(increase(nginx_ingress_controller_requests{status=~'5..'}[1m])) by (controller_pod, instance, ingress) / sum(increase(nginx_ingress_controller_requests[1m])) by (controller_pod, instance, ingress) > 0.01
+              instant: true
+              intervalMs: 1000
+              legendFormat: '{{ingress}}'
+              maxDataPoints: 43200
+              range: false
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 60
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0.01
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: B
+              type: threshold
+        noDataState: OK
+        execErrState: Alerting
+        for: 3m
+        annotations:
+          description: HTTP requests with status 5xx (> 1%)
+          summary: 5xx on {{ $labels.ingress}}
+        isPaused: false
