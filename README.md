@@ -2,7 +2,7 @@ otus-msa
 
 <br/>
 <b>Install:</b><br>
-  - minikube start --driver=virtualbox --memory 2048 --cpus 2 --disk-size 8g<br/>
+  - minikube start --driver=virtualbox<br/>
   - check minikube ip and map arch.homework local DNS in /etc/hosts<br/>
   - <br/>
   - kubectl create ns monitoring && kubectl create ns m && kubectl create ns database && kubectl create ns app<br/>
