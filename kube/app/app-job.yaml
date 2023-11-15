@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: app-init-db
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      containers:
+        - name: psql
+          image: governmentpaas/psql
+          imagePullPolicy: Always
+          command: ["psql"]
+          args: ["-Atx", "postgres://root:1234@postgres-service.database:5432", "-f", "/sql/init.sql"]
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: script-db
+              mountPath: "/sql"
+              readOnly: true
+      volumes:
+        - name: script-db
+          configMap:
+            name: app-cm
+            items:
+              - key: "init.sql"
+                path: "init.sql"
+      restartPolicy: Never

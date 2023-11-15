@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "http://auth-svc.auth.svc.cluster.local/auth/token"
+    nginx.ingress.kubernetes.io/auth-signin: "http://$host/auth/signin"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-User-Id,X-User-Name"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  name: app-ingress
+spec:
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - path: /user(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: app-svc
+                port:
+                  number: 80
+  ingressClassName: nginx

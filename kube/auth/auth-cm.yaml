@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-cm
+data:
+  auth.properties: |
+    server.port=8000
+    logging.level.web=TRACE
+    
+    spring.datasource.url=jdbc:postgresql://postgres-service.database:5432/otus
+    spring.datasource.username=${POSTGRES_USER}
+    spring.datasource.password=${POSTGRES_PASSWORD}
+    spring.datasource.driver-class-name=org.postgresql.Driver
+    spring.jpa.database=postgresql
+    spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+    
+    jwt.secret=fd434refdgrd3423rfwewae7qkioi7653423rff6541344f112465y
+    jwt.accessToken.lifetime=5m
+
+  init.sql: |
+    SELECT '
+      CREATE DATABASE otus
+      WITH
+        OWNER = root
+        ENCODING = "UTF8"
+        LC_COLLATE = "en_US.utf8"
+        LC_CTYPE = "en_US.utf8"
+        LOCALE_PROVIDER = "libc"
+        TABLESPACE = pg_default
+        CONNECTION LIMIT = -1
+        IS_TEMPLATE = False;'
+    WHERE NOT EXISTS (SELECT * FROM pg_database WHERE datname = 'otus');
+    \gexec
+    
+    \connect otus;
+    
+    --------------------------------------------------------------------------------------------------------------------
+    
+    CREATE SEQUENCE IF NOT EXISTS public.auth_users_id_seq
+      INCREMENT 1
+      START 1
+      MINVALUE 1
+      MAXVALUE 9223372036854775807
+      CACHE 1;
+    ALTER SEQUENCE IF EXISTS public.auth_users_id_seq
+      OWNER TO root;
+        
+    CREATE TABLE IF NOT EXISTS public.auth_users
+    (
+        id bigint NOT NULL DEFAULT nextval('auth_users_id_seq'::regclass),
+        username character varying(30) COLLATE pg_catalog."default" NOT NULL,
+        password character varying(80) COLLATE pg_catalog."default" NOT NULL,
+        CONSTRAINT auth_users_pkey PRIMARY KEY (id),
+        CONSTRAINT auth_users_username_key UNIQUE (username)
+    );
+    ALTER TABLE IF EXISTS public.auth_users
+        OWNER to root;
+    
+    --------------------------------------------------------------------------------------------------------------------
+  
+    CREATE SEQUENCE IF NOT EXISTS public.auth_roles_id_seq
+      INCREMENT 1
+      START 1
+      MINVALUE 1
+      MAXVALUE 9223372036854775807
+      CACHE 1;
+    ALTER SEQUENCE IF EXISTS public.auth_roles_id_seq
+      OWNER TO root;
+  
+    CREATE TABLE IF NOT EXISTS public.auth_roles
+    (
+        id integer NOT NULL DEFAULT nextval('auth_roles_id_seq'::regclass),
+        name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+        CONSTRAINT auth_roles_pkey PRIMARY KEY (id),
+        CONSTRAINT auth_roles_name_key UNIQUE (name)
+    );
+    ALTER TABLE IF EXISTS public.auth_roles
+        OWNER to root;
+    
+    --------------------------------------------------------------------------------------------------------------------
+    
+    CREATE TABLE IF NOT EXISTS public.auth_users_roles
+    (
+        user_id bigint NOT NULL,
+        role_id integer NOT NULL,
+        CONSTRAINT auth_users_roles_pkey PRIMARY KEY (user_id, role_id),
+        CONSTRAINT auth_users_roles_role_id_fkey FOREIGN KEY (role_id)
+            REFERENCES public.auth_roles (id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+            ON DELETE NO ACTION,
+        CONSTRAINT auth_users_roles_user_id_fkey FOREIGN KEY (user_id)
+            REFERENCES public.auth_users (id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+            ON DELETE NO ACTION
+    );
+    ALTER TABLE IF EXISTS public.auth_users_roles
+        OWNER to root;
+    
+    --------------------------------------------------------------------------------------------------------------------
+    insert into auth_roles (name)
+    values
+    ('ROLE_USER'), ('ROLE_MANAGER'), ('ROLE_ADMIN');

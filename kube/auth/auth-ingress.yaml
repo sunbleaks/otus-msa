@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: auth-proxy
+spec:
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-svc
+                port:
+                  number: 80
+          - path: /auth/signup
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-svc
+                port:
+                  number: 80
+          - path: /auth/login
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-svc
+                port:
+                  number: 80
+          - path: /auth/signin
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-svc
+                port:
+                  number: 80
+          - path: /auth/token
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-svc
+                port:
+                  number: 80
+  ingressClassName: nginx

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-svc
+  namespace: app
+  labels:
+    app: app-svc
+spec:
+  selector:
+    env: prod
+  ports:
+    - protocol: TCP
+      name: web
+      port: 80
+      targetPort: 8000
+  type: LoadBalancer
