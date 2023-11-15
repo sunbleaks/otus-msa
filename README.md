@@ -19,4 +19,5 @@ otus-msa
 
   Tests:<br/>
   - newman run Auth.postman_collection.json --verbose<br/>
+  - newman run Auth.postman_collection.json --verbose -r cli,junit,htmlextra --reporter-junit-export "newman/prod_report.xml" --reporter-htmlextra-export "newman/Prod_TestReport.html"<br/>
   <br/><br/>

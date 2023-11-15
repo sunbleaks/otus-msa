@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Auth" tests="14" time="0.381">
+  <testsuite name="Регистрация 1" id="f39bfcc2-1390-4fe1-8bcd-addb833896c7" timestamp="2023-11-15T11:01:30.080Z" tests="0" failures="0" errors="0" time="0.083"/>
+  <testsuite name="Логирование  1" id="6c324aa8-d968-40fb-be73-ff0cfa8be8d1" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.071">
+    <testcase name="test token data" time="0.071" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Проверка данных по токену 1" id="8a073b22-b14d-4f59-895b-2bf6b1d85b24" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.004">
+    <testcase name="test token data" time="0.004" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Добавить данные юзеру 1" id="5dae9256-1fc2-4ff1-82bc-8a82c64cfe99" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.012">
+    <testcase name="Status code is 201" time="0.012" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Получить данные по юзеру 1" id="8937d90b-7ffc-4ec7-8120-6ee5eb6bbdba" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.009">
+    <testcase name="test token data" time="0.009" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Редактировать данные юзера 1" id="1a9615aa-742e-4c28-8839-df5e79a71103" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.009">
+    <testcase name="test token data" time="0.009" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Удалить данные юзера 1" id="9be5c93e-0bd0-4608-b015-722a3a67b1e1" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.009">
+    <testcase name="test token data" time="0.009" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Регистрация 2" id="2e4e2a09-edb7-48b7-a7a5-288c25cd76aa" timestamp="2023-11-15T11:01:30.080Z" tests="0" failures="0" errors="0" time="0.072"/>
+  <testsuite name="Логирование 2" id="07589bb5-7fe3-4813-a1bb-0d49d3d74f4d" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.077">
+    <testcase name="test token data" time="0.077" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Проверка данных по токену 2" id="fa098ea1-0efc-4055-ab21-15fd8fca9595" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.004">
+    <testcase name="test token data" time="0.004" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Добавить данные юзеру 2" id="9b9dd82b-e7df-4edc-82f3-a22c9ed83851" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.009">
+    <testcase name="Status code is 201" time="0.009" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Получить данные по юзеру 2" id="c2c6cc0b-f55c-4f7f-b207-e23183632143" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.007">
+    <testcase name="test token data" time="0.007" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Редактировать данные юзера 2" id="6ab698aa-0fb5-4fc2-880f-d16d2b4ae564" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.008">
+    <testcase name="test token data" time="0.008" classname="Auth"/>
+  </testsuite>
+  <testsuite name="Удалить данные юзера 2" id="8508a4e9-1f23-451d-ab6b-44973e6c6973" timestamp="2023-11-15T11:01:30.080Z" tests="1" failures="0" errors="0" time="0.007">
+    <testcase name="test token data" time="0.007" classname="Auth"/>
+  </testsuite>
+</testsuites>
