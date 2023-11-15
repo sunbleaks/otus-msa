@@ -17,7 +17,13 @@ otus-msa
   - kubectl apply -f kube/app/. -n app<br/>
   <br/><br/>
 
-  Tests:<br/>
+<b>Архитектурное решение</b> 
+  ![Архитектурное решение drawio](https://github.com/sunbleaks/otus-msa/assets/144436024/35bb1039-9cc7-44da-8f6d-2907007d3928)
+  <br/><br/>
+
+<b>Tests:</b><br/>
   - newman run Auth.postman_collection.json --verbose<br/>
   - newman run Auth.postman_collection.json --verbose -r cli,junit,htmlextra --reporter-junit-export "newman/prod_report.xml" --reporter-htmlextra-export "newman/Prod_TestReport.html"<br/>
+
+  ![Снимок экрана от 2023-11-15 13-02-59](https://github.com/sunbleaks/otus-msa/assets/144436024/499e03ec-5916-4697-931f-75de8150414c)
   <br/><br/>
