@@ -1,20 +1,16 @@
 package com.example.appservice.controllers;
 
-import com.example.appservice.exceptions.NotFoundRuntimeException;
-import com.example.appservice.repository.UserRepository;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import jakarta.validation.constraints.NotNull;
+import java.util.Optional;
+
 import org.openapitools.api.UserApi;
 import org.openapitools.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-import java.util.Optional;
+import com.example.appservice.exceptions.NotFoundRuntimeException;
+import com.example.appservice.repository.UserRepository;
 
 @RestController
 public class UserController implements UserApi {
