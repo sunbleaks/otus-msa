@@ -1,0 +1,207 @@
+openapi: 3.0.0
+info:
+  description: |
+    This is simple client API
+  version: "1.0.0"
+  title: Order Service
+servers:
+  - description: Example Server
+    url: http://arch.homework:8000/
+tags:
+  - name: order
+    description: Operations about order
+
+paths:
+  /order:
+    post:
+      tags:
+        - order
+      operationId: createOrder
+      parameters:
+        - name: X-User-ID
+          in: header
+          schema:
+            type: string
+          required: true
+        - name: X-Request-ID
+          in: header
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Order'
+            example:
+              orderProducts:
+                - productId: 1
+                  quantity: 1
+                  amount: 10.05
+                - productId: 2
+                  quantity: 3
+                  amount: 50
+        required: true
+      responses:
+        '201':
+          description: order created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /order/{orderId}:
+    parameters:
+      - name: X-User-ID
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type : integer
+          format: int64
+
+    get:
+      tags:
+        - order
+      operationId: getOrder
+      responses:
+        '200':
+          description: order response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - order
+      operationId: changeOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Order'
+            example:
+              orderProducts:
+                - productId: 1
+                  quantity: 1
+                  amount: 10.05
+        required: true
+      responses:
+        '200':
+          description: order changed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - order
+      operationId: deleteOrder
+      responses:
+        '200':
+          description: order deleted
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+components:
+  schemas:
+    Order:
+      type: object
+      x-class-extra-annotation: "@jakarta.persistence.Entity 
+      @jakarta.persistence.Table(name = \"\\\"order\\\"\")"
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-field-extra-annotation: "@jakarta.persistence.Id\n @jakarta.persistence.GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)"
+          description: Id order
+        requestId:
+          type: string
+          example: a6175e25-ab61-4276-975c-02b13bb2c843
+          x-field-extra-annotation: "@jakarta.persistence.Column(name=\"request_id\")"
+          description: Id request generate by user
+        userId:
+          type: integer
+          format: int64
+          x-field-extra-annotation: "@jakarta.persistence.Column(name=\"user_id\")"
+          description: Id user
+        orderProducts:
+          type: array
+          x-field-extra-annotation: "
+          @jakarta.persistence.OneToMany(cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+          @jakarta.persistence.JoinColumn(name=\"order_id\")
+          @jakarta.persistence.Column(name=\"orderProducts\")"
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+          description: list ordered products
+
+
+    OrderProduct:
+      type: object
+      x-class-extra-annotation: "@jakarta.persistence.Entity 
+      @jakarta.persistence.Table(name = \"\\\"order_product\\\"\")"
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-field-extra-annotation: "
+          @jakarta.persistence.Id 
+          @jakarta.persistence.GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)"
+        productId:
+          type: integer
+          format: int64
+          x-field-extra-annotation: "@jakarta.persistence.Column(name=\"product_id\")"
+        quantity:
+          type: integer
+          description: count orders
+          example: 1
+          x-field-extra-annotation: "@jakarta.persistence.Column(name=\"quantity\")"
+        amount:
+          type: number
+          description: amount
+          example: 0.05
+          x-field-extra-annotation: "@jakarta.persistence.Column(name=\"amount\")"
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

@@ -2,6 +2,11 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/app-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-service/target/generated-sources/openapi/src/gen/java/main" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/auth-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order-service/target/generated-sources/openapi/src/gen/java/main" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders-service/src/main/resources" charset="UTF-8" />
   </component>
 </project>
